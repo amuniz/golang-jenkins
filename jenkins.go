@@ -719,6 +719,29 @@ func (jenkins *Jenkins) GetComputer(name string) (computer Computer, err error) 
 	return
 }
 
+// it creates a new API token for the current user and any subsequent request will use the token.
+func (jenkins *Jenkins) GenerateAndSetToken() error {
+	token, err := jenkins.GenerateUserToken("golang-jenkins")
+	if err != nil {
+		return err
+	}
+	jenkins.auth.ApiToken = token
+	return nil
+}
+
+// creates a new API token for the current user.
+func (jenkins *Jenkins) GenerateUserToken(name string) (string, error) {
+	var payload = struct {
+		token string `json:"data.tokenValue"`
+	}{}
+	param := url.Values{"newTokenName": []string{name}}
+	err := jenkins.Post("/userToken/generate", param, &payload)
+	if err != nil {
+		return "", err
+	}
+	return payload.token, nil
+}
+
 // hasParams returns a boolean value indicating if the job is parameterized
 func hasParams(job Job) bool {
 	for _, action := range job.Actions {

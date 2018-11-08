@@ -12,7 +12,8 @@ func NewJenkinsWithTestData() *Jenkins {
 		ApiToken: "admin",
 	}
 	//return NewJenkins(&auth, "http://jenkins.default.192.168.64.22.nip.io/")
-	return NewJenkins(&auth, "http://example.com")
+	//return NewJenkins(&auth, "http://example.com")
+	return NewJenkins(&auth, "http://localhost:8080/")
 }
 
 func Test(t *testing.T) {
@@ -126,5 +127,17 @@ func TestCreateJobItem(t *testing.T) {
 
 	if !foundNewJob {
 		t.Errorf("error %s not found\n", newJobName)
+	}
+}
+
+func TestCreateToken(t *testing.T) {
+	jenkins := NewJenkinsWithTestData()
+	_, err := jenkins.GenerateUserToken("test")
+	if err != nil {
+		t.Errorf("Can not generate an API token: %s\n", err)
+	}
+	jenkins.GenerateAndSetToken()
+	if jenkins.auth.ApiToken == "admin" {
+		t.Errorf("Can not generate an API token\n")
 	}
 }

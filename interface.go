@@ -51,4 +51,5 @@ type JenkinsClient interface {
 	TailLog(string, io.Writer, time.Duration, time.Duration) error
 	TailLogFunc(string, io.Writer) ConditionFunc
 	NewLogPoller(string, io.Writer) *LogPoller
+	GenerateUserToken(name string) (string, error)
 }

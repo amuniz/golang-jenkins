@@ -156,6 +156,25 @@ func (mock *MockJenkinsClient) DeleteJob(_param0 golang_jenkins.Job) error {
 	return ret0
 }
 
+func (mock *MockJenkinsClient) GenerateUserToken(_param0 string) (string, error) {
+	if mock == nil {
+		panic("mock must not be nil. Use myMock := NewMockJenkinsClient().")
+	}
+	params := []pegomock.Param{_param0}
+	result := pegomock.GetGenericMockFrom(mock).Invoke("GenerateUserToken", params, []reflect.Type{reflect.TypeOf((*string)(nil)).Elem(), reflect.TypeOf((*error)(nil)).Elem()})
+	var ret0 string
+	var ret1 error
+	if len(result) != 0 {
+		if result[0] != nil {
+			ret0 = result[0].(string)
+		}
+		if result[1] != nil {
+			ret1 = result[1].(error)
+		}
+	}
+	return ret0, ret1
+}
+
 func (mock *MockJenkinsClient) GetArtifact(_param0 golang_jenkins.Build, _param1 golang_jenkins.Artifact) ([]byte, error) {
 	if mock == nil {
 		panic("mock must not be nil. Use myMock := NewMockJenkinsClient().")
@@ -970,6 +989,33 @@ func (c *JenkinsClient_DeleteJob_OngoingVerification) GetAllCapturedArguments() 
 		_param0 = make([]golang_jenkins.Job, len(params[0]))
 		for u, param := range params[0] {
 			_param0[u] = param.(golang_jenkins.Job)
+		}
+	}
+	return
+}
+
+func (verifier *VerifierJenkinsClient) GenerateUserToken(_param0 string) *JenkinsClient_GenerateUserToken_OngoingVerification {
+	params := []pegomock.Param{_param0}
+	methodInvocations := pegomock.GetGenericMockFrom(verifier.mock).Verify(verifier.inOrderContext, verifier.invocationCountMatcher, "GenerateUserToken", params)
+	return &JenkinsClient_GenerateUserToken_OngoingVerification{mock: verifier.mock, methodInvocations: methodInvocations}
+}
+
+type JenkinsClient_GenerateUserToken_OngoingVerification struct {
+	mock              *MockJenkinsClient
+	methodInvocations []pegomock.MethodInvocation
+}
+
+func (c *JenkinsClient_GenerateUserToken_OngoingVerification) GetCapturedArguments() string {
+	_param0 := c.GetAllCapturedArguments()
+	return _param0[len(_param0)-1]
+}
+
+func (c *JenkinsClient_GenerateUserToken_OngoingVerification) GetAllCapturedArguments() (_param0 []string) {
+	params := pegomock.GetGenericMockFrom(c.mock).GetInvocationParams(c.methodInvocations)
+	if len(params) > 0 {
+		_param0 = make([]string, len(params[0]))
+		for u, param := range params[0] {
+			_param0[u] = param.(string)
 		}
 	}
 	return
